@@ -132,16 +132,28 @@ mean_difference <- mean(abs(cor_difference), na.rm = TRUE)
 # print
 print(mean_difference)
 
+sd_difference <- sd(abs(cor_difference), na.rm = TRUE)
+min_difference <- min(abs(cor_difference), na.rm = TRUE)
+max_difference <- max(abs(cor_difference), na.rm = TRUE)
+
+print(paste("Standard Deviation:", sd_difference))
+print(paste("Minimum Difference:", min_difference))
+print(paste("Maximum Difference:", max_difference))
 
 
-cor_difference_vector <- as.vector(abs(cor_difference))
-cor_difference_vector_no_diag <- cor_difference_vector[cor_difference_vector != 0]
-hist(cor_difference_vector_no_diag,
-     main="Absolute Correlation Difference Histogram",
-     xlab="Absolute Correlation Difference",
-     ylab="Frequency",
-     col="blue",
-     border="black")
+absolute_cor_difference <- abs(cor_difference)
+
+absolute_cor_difference_vector <- data.frame(absolute = as.vector(absolute_cor_difference))
+
+ggplot(data = absolute_cor_difference_vector, aes(x = absolute)) +
+  geom_histogram(alpha = .50) +
+  xlab("Absolute Difference in Correlation (r) for Synthetic and Observed") +
+  theme_classic() +
+  theme(text = element_text(size = 15),
+        legend.position = "none") +
+  ylab("N") +
+  scale_x_continuous(labels = scales::number_format(accuracy = 0.1))
+
 
 
 
